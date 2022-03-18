@@ -18,5 +18,4 @@ def maxHeapify(vector, i):
         maxHeapify(vector, maior)
 
 
-def buildMaxHeap(vector: list[int]):
-
+# def buildMaxHeap(vector: list[int]):
