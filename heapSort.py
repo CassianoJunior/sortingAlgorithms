@@ -1,35 +1,35 @@
 
-def maxHeapify(vector: list[int], i, tamanhoHeap):
-    l = 2*i+1
-    r = 2*i+2
+def maxHeapify(vector: list[int], i, heapSize):
+    left = 2*i+1
+    right = 2*i+2
 
-    if l < tamanhoHeap and vector[l] > vector[i]:
-        maior = l
+    if left < heapSize and vector[left] > vector[i]:
+        largest = left
     else:
-        maior = i
-    if r < tamanhoHeap and vector[r] > vector[maior]:
-        maior = r
-    if maior != i:
-        temp = vector[i]
-        vector[i] = vector[maior]
-        vector[maior] = temp
-        maxHeapify(vector, maior, tamanhoHeap)
+        largest = i
+    if right < heapSize and vector[right] > vector[largest]:
+        largest = right
+    if largest != i:
+        aux = vector[i]
+        vector[i] = vector[largest]
+        vector[largest] = aux
+        maxHeapify(vector, largest, heapSize)
 
-def buildMaxHeap(vector: list[int], tamanhoHeap):
+def buildMaxHeap(vector: list[int], heapSize):
     for i in range((len(vector)//2) - 1, -1, -1):
-        maxHeapify(vector, i, tamanhoHeap)
+        maxHeapify(vector, i, heapSize)
 
 def heapSort(vector: list[int]):
-   tamanhoHeap = len(vector)
-   buildMaxHeap(vector, tamanhoHeap)
+   heapSize = len(vector)
+   buildMaxHeap(vector, heapSize)
    for i in range(len(vector)-1, -1, -1):
         temp = vector[0]
         vector[0] = vector[i]
         vector[i] = temp
-        tamanhoHeap -= 1
-        maxHeapify(vector, 0, tamanhoHeap)
+        heapSize -= 1
+        maxHeapify(vector, 0, heapSize)
 
-# v = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
-# heapSort(v)
-# for i in v:
-#     print(i)
+#v = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
+#heapSort(v)
+#for i in v:
+#   print(i)
