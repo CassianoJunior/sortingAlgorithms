@@ -6,8 +6,8 @@ def bubblesort(vector: list[int]):
                 vector[j] = vector[j-1]
                 vector[j-1] = temp
 
-vector = [5,4,3,2,1,6,8,12,7]
-bubblesort(vector)
+# vector = [5,4,3,2,1,6,8,12,7]
+# bubblesort(vector)
 
-for k in vector:
-    print(k)
+# for k in vector:
+#     print(k)

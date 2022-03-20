@@ -29,7 +29,7 @@ def heapSort(vector: list[int]):
         tamanhoHeap -= 1
         maxHeapify(vector, 0, tamanhoHeap)
 
-v = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
-heapSort(v)
-for i in v:
-    print(i)
+# v = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
+# heapSort(v)
+# for i in v:
+#     print(i)

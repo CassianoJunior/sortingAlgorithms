@@ -1,8 +1,8 @@
-import sys
+# import sys
 
-def merge(vector, firstIndex, mid, finalIndex):
+# def merge(vector, firstIndex, mid, finalIndex):
     
 
-maximo = sys.maxsize
-print(maximo)
+# maximo = sys.maxsize
+# print(maximo)
 

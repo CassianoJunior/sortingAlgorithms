@@ -7,7 +7,7 @@ def insertionSort(vector):
             j -= 1
         vector[j+1] = aux    
 
-vector = [5,4,2,3,1]
-insertionSort(vector)
-for i in vector:
-    print(i)        
+# vector = [5,4,2,3,1]
+# insertionSort(vector)
+# for i in vector:
+#     print(i)        

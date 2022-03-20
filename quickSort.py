@@ -20,9 +20,9 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
     quickSort(vector, firstIndex, pivot - 1)
     quickSort(vector, pivot, finalIndex)
 
-testVector = [5, 4, 3, 2, 1, 0]
+# testVector = [5, 4, 3, 2, 1, 0]
 
-quickSort(testVector, 0, len(testVector) - 1)
+# quickSort(testVector, 0, len(testVector) - 1)
 
-for i in testVector:
-  print(i)
+# for i in testVector:
+#   print(i)
