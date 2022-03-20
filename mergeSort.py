@@ -1,8 +1,44 @@
-# import sys
+import time
 
-# def merge(vector, firstIndex, mid, finalIndex):
-    
+def merge(vector: list[int], initialIndex: int, middleIndex: int, finalIndex: int) -> None:
+  leftArray = vector[initialIndex:middleIndex+1]
+  rightArray = vector[middleIndex+1:finalIndex+1]
 
-# maximo = sys.maxsize
-# print(maximo)
+  leftArraySize = len(leftArray)
+  rightArraySize = len(rightArray)
 
+  indexLeftArray = 0
+  indexRightArray = 0
+
+  for i in range(initialIndex, finalIndex + 1):
+    if indexLeftArray >= leftArraySize:
+      vector[i] = rightArray[indexRightArray]
+      indexRightArray += 1
+    elif indexRightArray >= rightArraySize:
+      vector[i] = leftArray[indexLeftArray]
+      indexLeftArray += 1
+    elif leftArray[indexLeftArray] < rightArray[indexRightArray]:
+      vector[i] = leftArray[indexLeftArray]
+      indexLeftArray += 1
+    else:
+      vector[i] = rightArray[indexRightArray]
+      indexRightArray += 1
+
+
+
+def mergeSort(vector: list[int], initialIndex: int, finalIndex: int) -> None:
+  if initialIndex < finalIndex:
+    mid = (initialIndex + finalIndex) // 2
+    mergeSort(vector, initialIndex, mid)
+    mergeSort(vector, mid + 1, finalIndex)
+    merge(vector, initialIndex, mid, finalIndex)
+
+def run(vector: list[int]) -> tuple[list[int], float]:
+  vectorCopy = vector[:]
+
+  initialTime = time.time()
+  mergeSort(vectorCopy, 0, len(vectorCopy) - 1)
+  finalTime = time.time()
+  runTime = finalTime - initialTime
+
+  return vectorCopy, runTime

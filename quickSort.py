@@ -1,3 +1,5 @@
+import time
+
 def partition(vector: list[int], firstIndex: int, finalIndex: int) -> int:
   pivot = vector[finalIndex]
   previous = firstIndex - 1
@@ -13,16 +15,18 @@ def partition(vector: list[int], firstIndex: int, finalIndex: int) -> int:
   vector[finalIndex] = aux
 
   return previous + 1
- 
+
 def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
   if firstIndex < finalIndex:
     pivot = partition(vector, firstIndex, finalIndex)
     quickSort(vector, firstIndex, pivot - 1)
     quickSort(vector, pivot, finalIndex)
 
-# testVector = [5, 4, 3, 2, 1, 0]
+def run(vector: list[int]) -> tuple[list[int], float]:
+  vectorCopy = vector[:]
+  initialTime = time.time()
+  quickSort(vectorCopy)
+  finalTime = time.time()
+  runTime = finalTime - initialTime
 
-# quickSort(testVector, 0, len(testVector) - 1)
-
-# for i in testVector:
-#   print(i)
+  return vectorCopy, runTime

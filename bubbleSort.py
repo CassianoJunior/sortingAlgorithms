@@ -1,13 +1,18 @@
-def bubblesort(vector: list[int]):
-    for i in range(len(vector)):
-        for j in range(len(vector)-1, i, -1):
-            if vector[j] < vector[j-1]:
-                temp = vector[j]
-                vector[j] = vector[j-1]
-                vector[j-1] = temp
+import time
 
-# vector = [5,4,3,2,1,6,8,12,7]
-# bubblesort(vector)
+def bubblesort(vector: list[int]) -> None:
+  for i in range(len(vector)):
+    for j in range(len(vector)-1, i, -1):
+      if vector[j] < vector[j-1]:
+        temp = vector[j]
+        vector[j] = vector[j-1]
+        vector[j-1] = temp
 
-# for k in vector:
-#     print(k)
+def run(vector: list[int]) -> tuple[list[int], float]:
+  vectorCopy = vector[:]
+  initialTime = time.time()
+  bubblesort(vectorCopy)
+  finalTime = time.time()
+  runTime = finalTime - initialTime
+
+  return vectorCopy, runTime

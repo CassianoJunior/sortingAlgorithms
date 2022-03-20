@@ -1,35 +1,43 @@
+import time
 
-def maxHeapify(vector: list[int], i, heapSize):
-    left = 2*i+1
-    right = 2*i+2
+def maxHeapify(vector: list[int], actualNode: int, heapSize: int) -> None:
+  leftSon = 2*actualNode+1
+  rightSon = 2*actualNode+2
 
-    if left < heapSize and vector[left] > vector[i]:
-        largest = left
-    else:
-        largest = i
-    if right < heapSize and vector[right] > vector[largest]:
-        largest = right
-    if largest != i:
-        aux = vector[i]
-        vector[i] = vector[largest]
-        vector[largest] = aux
-        maxHeapify(vector, largest, heapSize)
+  if leftSon < heapSize and vector[leftSon] > vector[actualNode]:
+    largestValue = leftSon
+  else:
+    largestValue = actualNode
+  if rightSon < heapSize and vector[rightSon] > vector[largestValue]:
+    largestValue = rightSon
+  if largestValue != actualNode:
+    aux = vector[actualNode]
+    vector[actualNode] = vector[largestValue]
+    vector[largestValue] = aux
+    maxHeapify(vector, largestValue, heapSize)
 
-def buildMaxHeap(vector: list[int], heapSize):
-    for i in range((len(vector)//2) - 1, -1, -1):
-        maxHeapify(vector, i, heapSize)
 
-def heapSort(vector: list[int]):
-   heapSize = len(vector)
-   buildMaxHeap(vector, heapSize)
-   for i in range(len(vector)-1, -1, -1):
-        temp = vector[0]
-        vector[0] = vector[i]
-        vector[i] = temp
-        heapSize -= 1
-        maxHeapify(vector, 0, heapSize)
+def buildMaxHeap(vector: list[int], heapSize: int) -> None:
+  for i in range((len(vector)//2) - 1, -1, -1):
+    maxHeapify(vector, i, heapSize)
 
-#v = [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
-#heapSort(v)
-#for i in v:
-#   print(i)
+
+def heapSort(vector: list[int]) -> None:
+  heapSize = len(vector)
+  buildMaxHeap(vector, heapSize)
+  for i in range(len(vector)-1, -1, -1):
+    temp = vector[0]
+    vector[0] = vector[i]
+    vector[i] = temp
+    heapSize -= 1
+    maxHeapify(vector, 0, heapSize)
+
+
+def run(vector: list[int]) -> tuple[list[int], float]:
+  vectorCopy = vector[:]
+  initialTime = time.time()
+  heapSort(vectorCopy)
+  finalTime = time.time()
+  runTime = finalTime - initialTime
+
+  return vectorCopy, runTime
