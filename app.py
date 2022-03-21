@@ -103,6 +103,7 @@ async def app():
       sumTimeAscendingSortedVector = 0
       sumTimeDescendigSortedVector = 0
       sumTimeRandomVector = 0
+
       for i in range(3):
         orderedVectorForAscending, timeAscending = bubbleSort.run(ascendingOrderedVectorTest)
         sumTimeAscendingSortedVector += timeAscending
@@ -117,12 +118,123 @@ async def app():
 
       print("Escrevendo dados...")
       await writeOnFile("bubbleSort.txt", [orderedVectorForAscending, averageTimeAscendingSortedVector], [orderedVectorForDescending, averageTimeDescendigSortedVector], [orderedVectorForRandom, averageTimeRandomVector])
-      print("Verifique o arquivo criado ('bubleSort.txt') com os dados")
+      print("Verifique o arquivo criado ('bubbleSort.txt') com os dados")
+
+    elif option == 2:
+      if check(sampleSize):
+        print("Defina uma amostra antes de executar")
+        continue
+
+      sumTimeAscendingSortedVector = 0
+      sumTimeDescendigSortedVector = 0
+      sumTimeRandomVector = 0
+
+      for i in range(3):
+        orderedVectorForAscending, timeAscending = insertionSort.run(ascendingOrderedVectorTest)
+        sumTimeAscendingSortedVector += timeAscending
+        orderedVectorForDescending, timeDescending = insertionSort.run(descendingOrderedVectorTest)
+        sumTimeDescendigSortedVector += timeDescending
+        orderedVectorForRandom, timeRandom = insertionSort.run(randomVectorTest)
+        sumTimeRandomVector += timeRandom
+
+      averageTimeAscendingSortedVector = sumTimeAscendingSortedVector / 3
+      averageTimeDescendigSortedVector = sumTimeDescendigSortedVector / 3
+      averageTimeRandomVector = sumTimeRandomVector / 3
+
+      print("Escrevendo dados...")
+      await writeOnFile("insertionSort.txt", [orderedVectorForAscending, averageTimeAscendingSortedVector], [orderedVectorForDescending, averageTimeDescendigSortedVector], [orderedVectorForRandom, averageTimeRandomVector])
+      print("Verifique o arquivo criado ('insertionSort.txt') com os dados")
+
+    elif option == 3:
+      if check(sampleSize):
+        print("Defina uma amostra antes de executar")
+        continue
+
+      sumTimeAscendingSortedVector = 0
+      sumTimeDescendigSortedVector = 0
+      sumTimeRandomVector = 0
+
+      for i in range(3):
+        orderedVectorForAscending, timeAscending = mergeSort.run(ascendingOrderedVectorTest)
+        sumTimeAscendingSortedVector += timeAscending
+        orderedVectorForDescending, timeDescending = mergeSort.run(descendingOrderedVectorTest)
+        sumTimeDescendigSortedVector += timeDescending
+        orderedVectorForRandom, timeRandom = mergeSort.run(randomVectorTest)
+        sumTimeRandomVector += timeRandom
+
+      averageTimeAscendingSortedVector = sumTimeAscendingSortedVector / 3
+      averageTimeDescendigSortedVector = sumTimeDescendigSortedVector / 3
+      averageTimeRandomVector = sumTimeRandomVector / 3
+
+      print("Escrevendo dados...")
+      await writeOnFile("mergeSort.txt", [orderedVectorForAscending, averageTimeAscendingSortedVector], [orderedVectorForDescending, averageTimeDescendigSortedVector], [orderedVectorForRandom, averageTimeRandomVector])
+      print("Verifique o arquivo criado ('mergeSort.txt') com os dados")
+
+    elif option == 4:
+      if check(sampleSize):
+        print("Defina uma amostra antes de executar")
+        continue
+
+      sumTimeAscendingSortedVector = 0
+      sumTimeDescendigSortedVector = 0
+      sumTimeRandomVector = 0
+
+      for i in range(3):
+        orderedVectorForAscending, timeAscending = heapSort.run(ascendingOrderedVectorTest)
+        sumTimeAscendingSortedVector += timeAscending
+        orderedVectorForDescending, timeDescending = heapSort.run(descendingOrderedVectorTest)
+        sumTimeDescendigSortedVector += timeDescending
+        orderedVectorForRandom, timeRandom = heapSort.run(randomVectorTest)
+        sumTimeRandomVector += timeRandom
+
+      averageTimeAscendingSortedVector = sumTimeAscendingSortedVector / 3
+      averageTimeDescendigSortedVector = sumTimeDescendigSortedVector / 3
+      averageTimeRandomVector = sumTimeRandomVector / 3
+
+      print("Escrevendo dados...")
+      await writeOnFile("heapSort.txt", [orderedVectorForAscending, averageTimeAscendingSortedVector], [orderedVectorForDescending, averageTimeDescendigSortedVector], [orderedVectorForRandom, averageTimeRandomVector])
+      print("Verifique o arquivo criado ('heapSort.txt') com os dados")
+
+    elif option == 5:
+      if check(sampleSize):
+        print("Defina uma amostra antes de executar")
+        continue
+
+      sumTimeAscendingSortedVector = 0
+      sumTimeDescendigSortedVector = 0
+      sumTimeRandomVector = 0
+
+      for i in range(3):
+        orderedVectorForAscending, timeAscending = quickSort.run(ascendingOrderedVectorTest)
+        sumTimeAscendingSortedVector += timeAscending
+        orderedVectorForDescending, timeDescending = quickSort.run(descendingOrderedVectorTest)
+        sumTimeDescendigSortedVector += timeDescending
+        orderedVectorForRandom, timeRandom = quickSort.run(randomVectorTest)
+        sumTimeRandomVector += timeRandom
+
+      averageTimeAscendingSortedVector = sumTimeAscendingSortedVector / 3
+      averageTimeDescendigSortedVector = sumTimeDescendigSortedVector / 3
+      averageTimeRandomVector = sumTimeRandomVector / 3
+
+      print("Escrevendo dados...")
+      await writeOnFile("quickSort.txt", [orderedVectorForAscending, averageTimeAscendingSortedVector], [orderedVectorForDescending, averageTimeDescendigSortedVector], [orderedVectorForRandom, averageTimeRandomVector])
+      print("Verifique o arquivo criado ('quickSort.txt') com os dados")
+
     elif option == 6:
-      size = int(input("Defina o tamanho da amostra para o teste: "))
+      while(True):
+        size = int(input("Defina o tamanho da amostra para o teste: "))
+        if size <= 200000: break
+
+        print("Digite um valor ate 200000")
+        continue
+
       ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest = defineSample(size, ascendingOrderedVector, descendingOrderedVector, randomVector)
       sampleSize = size
       print("Nova amostra definida!")
+
+    else:
+      print("Digite apenas os valores mostrados.")
+      continue
 
   print("End of program")
 

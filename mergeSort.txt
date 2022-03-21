@@ -1,5 +1,5 @@
-Dados da execucao do algoritmo bubbleSort
-Tempo de ordenacao do vetor ordenado crescente: 0.0316778818766276
+Dados da execucao do algoritmo mergeSort
+Tempo de ordenacao do vetor ordenado crescente: 0.0020386377970377603
 Vetor ordenado: 
 0
 1
@@ -838,7 +838,7 @@ Vetor ordenado:
 834
 835
 836
-Tempo de ordenacao do vetor ordenado decrescente: 0.07468152046203613
+Tempo de ordenacao do vetor ordenado decrescente: 0.001964410146077474
 Vetor ordenado: 
 0
 1
@@ -1677,7 +1677,7 @@ Vetor ordenado:
 834
 835
 836
-Tempo de ordenacao do vetor aleatorio: 0.05634355545043945
+Tempo de ordenacao do vetor aleatorio: 0.0026665528615315757
 Vetor ordenado: 
 65
 180

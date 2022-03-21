@@ -25,7 +25,7 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
 def run(vector: list[int]) -> tuple[list[int], float]:
   vectorCopy = vector[:]
   initialTime = time.time()
-  quickSort(vectorCopy)
+  quickSort(vectorCopy, 0, len(vectorCopy) - 1)
   finalTime = time.time()
   runTime = finalTime - initialTime
 
