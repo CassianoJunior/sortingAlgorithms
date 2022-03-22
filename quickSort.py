@@ -1,26 +1,23 @@
 import time
-
-def partition(vector: list[int], firstIndex: int, finalIndex: int) -> int:
-  pivot = vector[finalIndex]
-  previous = firstIndex - 1
-  for i in range(firstIndex, finalIndex):
-    if vector[i] <= pivot :
-      previous += 1
-      aux = vector[i]
-      vector[i] = vector[previous]
-      vector[previous] = aux
-
-  aux = vector[previous + 1]
-  vector[previous + 1] = vector[finalIndex]
-  vector[finalIndex] = aux
-
-  return previous + 1
+import random
 
 def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
-  if firstIndex < finalIndex:
-    pivot = partition(vector, firstIndex, finalIndex)
-    quickSort(vector, firstIndex, pivot - 1)
-    quickSort(vector, pivot, finalIndex)
+  startIndex = firstIndex
+  endIndex = finalIndex
+  pivot = vector[(firstIndex + finalIndex) // 2]
+
+  while startIndex <= endIndex:
+    while vector[startIndex] < pivot: startIndex += 1
+    while vector[endIndex] > pivot: endIndex -= 1
+    if startIndex <= endIndex:
+      aux = vector[startIndex]
+      vector[startIndex] = vector[endIndex]
+      vector[endIndex] = aux
+      startIndex += 1
+      endIndex -= 1
+
+  if firstIndex < endIndex: quickSort(vector, firstIndex, endIndex)
+  if finalIndex > startIndex: quickSort(vector, startIndex, finalIndex)
 
 def run(vector: list[int]) -> tuple[list[int], float]:
   vectorCopy = vector[:]
