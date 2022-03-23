@@ -1,6 +1,9 @@
 import time
 
+numberOfComparations = 0
+
 def merge(vector: list[int], initialIndex: int, middleIndex: int, finalIndex: int) -> None:
+  global numberOfComparations
   leftArray = vector[initialIndex:middleIndex+1]
   rightArray = vector[middleIndex+1:finalIndex+1]
 
@@ -16,13 +19,15 @@ def merge(vector: list[int], initialIndex: int, middleIndex: int, finalIndex: in
       indexRightArray += 1
     elif indexRightArray >= rightArraySize:
       vector[i] = leftArray[indexLeftArray]
-      indexLeftArray += 1
+      indexLeftArray += 1  
     elif leftArray[indexLeftArray] < rightArray[indexRightArray]:
       vector[i] = leftArray[indexLeftArray]
       indexLeftArray += 1
+      numberOfComparations += 1
     else:
       vector[i] = rightArray[indexRightArray]
       indexRightArray += 1
+      numberOfComparations += 1
 
 
 
@@ -42,3 +47,11 @@ def run(vector: list[int]) -> tuple[list[int], float]:
   runTime = finalTime - initialTime
 
   return vectorCopy, runTime
+
+'''
+vector = [1, 4, 8, 3, 6, 5, 2, 7]
+mergeSort(vector, 0, len(vector) - 1)
+for i in vector:
+  print(i)
+print(numberOfComparations)
+'''

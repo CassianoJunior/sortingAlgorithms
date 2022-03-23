@@ -1,15 +1,21 @@
 import time
 
+numberOfComparations = 0
+
 def maxHeapify(vector: list[int], actualNode: int, heapSize: int) -> None:
+  global numberOfComparations
   leftSon = 2*actualNode+1
   rightSon = 2*actualNode+2
-
+  
+  numberOfComparations += 1
   if leftSon < heapSize and vector[leftSon] > vector[actualNode]:
     largestValue = leftSon
   else:
     largestValue = actualNode
+  numberOfComparations += 1  
   if rightSon < heapSize and vector[rightSon] > vector[largestValue]:
     largestValue = rightSon
+  numberOfComparations += 1  
   if largestValue != actualNode:
     aux = vector[actualNode]
     vector[actualNode] = vector[largestValue]
@@ -41,3 +47,11 @@ def run(vector: list[int]) -> tuple[list[int], float]:
   runTime = finalTime - initialTime
 
   return vectorCopy, runTime
+
+'''
+vector = [1, 2, 3, 4]
+heapSort(vector)
+for i in vector:
+  print(i)
+print(numberOfComparations)
+'''
