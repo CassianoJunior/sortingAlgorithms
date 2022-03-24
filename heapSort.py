@@ -48,10 +48,10 @@ def run(vector: list[int]) -> tuple[list[int], float]:
 
   return vectorCopy, runTime
 
-'''
+
 vector = [1, 2, 3, 4]
 heapSort(vector)
 for i in vector:
   print(i)
 print(numberOfComparations)
-'''
+

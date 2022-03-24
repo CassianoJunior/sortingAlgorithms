@@ -10,8 +10,12 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
   pivot = vector[(firstIndex + finalIndex) // 2]
 
   while startIndex <= endIndex:
-    while vector[startIndex] < pivot: startIndex += 1
-    while vector[endIndex] > pivot: endIndex -= 1
+    while vector[startIndex] < pivot: 
+      startIndex += 1
+      numberOfComparations += 1
+    while vector[endIndex] > pivot: 
+      endIndex -= 1
+      numberOfComparations += 1
     numberOfComparations += 1
     if startIndex <= endIndex:
       aux = vector[startIndex]
@@ -19,8 +23,9 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
       vector[endIndex] = aux
       startIndex += 1
       endIndex -= 1
-
+  numberOfComparations += 1
   if firstIndex < endIndex: quickSort(vector, firstIndex, endIndex)
+  numberOfComparations += 1
   if finalIndex > startIndex: quickSort(vector, startIndex, finalIndex)
 
 def run(vector: list[int]) -> tuple[list[int], float]:
@@ -33,9 +38,10 @@ def run(vector: list[int]) -> tuple[list[int], float]:
   return vectorCopy, runTime
 
 '''
-vector = [1, 4, 8, 3, 6, 5, 2, 7]
+vector = [1, 2, 3, 4, 5, 6, 7, 8]
 quickSort(vector, 0, len(vector) - 1)
 for i in vector:
   print(i)
 print(numberOfComparations)
 '''
+
