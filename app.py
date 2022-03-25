@@ -49,9 +49,9 @@ async def writeOnFile(fileName: str, ascendingData: tuple[list[int], float, floa
     file.write(f"Dados da execucao do algoritmo {algorithm}\n")
     file.write(f"Tempos de ordenacao para os diferentes vetores\n")
     file.write(f"""
-  -> Tempo vetor crescente: {ascendingData[1]} | Número de comparações: {ascendingData[2]}\n
-  -> Tempo vetor decrescente: {descendingData[1]} | Número de comparações: {descendingData[2]}\n
-  -> Tempo vetor aleatório: {randomData[1]} | Número de comparações: {randomData[2]}\n
+  -> Tempo vetor crescente: {ascendingData[0]} | Número de comparações: {ascendingData[1]}\n
+  -> Tempo vetor decrescente: {descendingData[0]} | Número de comparações: {descendingData[1]}\n
+  -> Tempo vetor aleatório: {randomData[0]} | Número de comparações: {randomData[1]}\n
     """)
 
 def checkOrdenation(vector: list[int], size: int) -> bool:
@@ -61,7 +61,7 @@ def checkOrdenation(vector: list[int], size: int) -> bool:
 
   return True
 
-def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, int]], vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[list[int], float, int], tuple[list[int], float, int], tuple[list[int], float, int]]:
+def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, int]], vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[float, int], tuple[float, int], tuple[float, int]]:
   sumTimeAscendingSortedVector = 0
   sumTimeDescendigSortedVector = 0
   sumTimeRandomVector = 0
@@ -98,9 +98,9 @@ def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, in
   averageComparationsDescendingSortedVector = sumComparationsDescendingSortedVector / 3
   averageComparationsRandomVector = sumComparationsRandomVector / 3
 
-  dataAscendingVector = [orderedVectorForAscending, averageTimeAscendingSortedVector, averageComparationsAscendingSortedVector]
-  dataDescendingVector = [orderedVectorForDescending, averageTimeDescendigSortedVector, averageComparationsDescendingSortedVector]
-  dataRandomVector = [orderedVectorForRandom, averageTimeRandomVector, averageComparationsRandomVector]
+  dataAscendingVector = [averageTimeAscendingSortedVector, averageComparationsAscendingSortedVector]
+  dataDescendingVector = [averageTimeDescendigSortedVector, averageComparationsDescendingSortedVector]
+  dataRandomVector = [averageTimeRandomVector, averageComparationsRandomVector]
 
   return dataAscendingVector, dataDescendingVector, dataRandomVector
 
