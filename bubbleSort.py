@@ -1,4 +1,4 @@
-import time
+import timeit
 
 numberOfComparations = 0
 
@@ -18,9 +18,6 @@ def bubblesort(vector: list[int]) -> None:
 
 def run(vector: list[int]) -> tuple[list[int], float, int]:
   vectorCopy = vector[:]
-  initialTime = time.time()
-  bubblesort(vectorCopy)
-  finalTime = time.time()
-  runTime = finalTime - initialTime
+  runTime = timeit.timeit(lambda: bubblesort(vectorCopy), number=1)
 
   return vectorCopy, runTime, numberOfComparations

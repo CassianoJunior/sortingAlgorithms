@@ -1,4 +1,4 @@
-import time
+import timeit
 
 numberOfComparations = 0
 
@@ -19,9 +19,6 @@ def insertionSort(vector: list[int]) -> None:
 
 def run(vector: list[int]) -> tuple[list[int], float, int]:
   vectorCopy = vector[:]
-  initialTime = time.time()
-  insertionSort(vectorCopy)
-  finalTime = time.time()
-  runTime = finalTime - initialTime
+  runTime = timeit.timeit(lambda: insertionSort(vectorCopy), number=1)
 
   return vectorCopy, runTime, numberOfComparations

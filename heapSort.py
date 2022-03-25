@@ -1,4 +1,4 @@
-import time
+import timeit
 
 numberOfComparations = 0
 
@@ -59,9 +59,6 @@ def heapSort(vector: list[int]) -> None:
 
 def run(vector: list[int]) -> tuple[list[int], float, int]:
   vectorCopy = vector[:]
-  initialTime = time.time()
-  heapSort(vectorCopy)
-  finalTime = time.time()
-  runTime = finalTime - initialTime
+  runTime = timeit.timeit(lambda: heapSort(vectorCopy), number=1)
 
   return vectorCopy, runTime, numberOfComparations

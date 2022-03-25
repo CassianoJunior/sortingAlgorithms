@@ -1,4 +1,4 @@
-import time
+import timeit
 
 numberOfComparations = 0
 
@@ -37,10 +37,7 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
 
 def run(vector: list[int]) -> tuple[list[int], float, int]:
   vectorCopy = vector[:]
-  initialTime = time.time()
-  quickSort(vectorCopy, 0, len(vectorCopy) - 1)
-  finalTime = time.time()
-  runTime = finalTime - initialTime
+  runTime = timeit.timeit(lambda: quickSort(vectorCopy, 0, len(vectorCopy)-1), number=1)
 
   return vectorCopy, runTime, numberOfComparations
 
