@@ -61,7 +61,7 @@ def checkOrdenation(vector: list[int], size: int) -> bool:
 
   return True
 
-def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float]], vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[list[int], float], tuple[list[int], float], tuple[list[int], float]]:
+def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, int]], vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[list[int], float, int], tuple[list[int], float, int], tuple[list[int], float, int]]:
   sumTimeAscendingSortedVector = 0
   sumTimeDescendigSortedVector = 0
   sumTimeRandomVector = 0
