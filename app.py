@@ -1,5 +1,6 @@
 import random
 import asyncio
+from typing import Callable
 from OrdenationExcept import OrdenationExcept
 
 import bubbleSort
@@ -58,13 +59,12 @@ async def writeOnFile(fileName: str, ascendingData: tuple[list[int], float], des
 
 def checkOrdenation(vector: list[int], size: int) -> bool:
   for i in range(size):
-    print(vector[i], i)
     if vector[i] != i:
       return False
 
   return True
 
-def executeAlgorithm(algorithm, vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[list[int], float], tuple[list[int], float], tuple[list[int], float]]:
+def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float]], vectorAscending: list[int], vectorDescending: list[int], randomVector: list[int]) -> tuple[tuple[list[int], float], tuple[list[int], float], tuple[list[int], float]]:
   sumTimeAscendingSortedVector = 0
   sumTimeDescendigSortedVector = 0
   sumTimeRandomVector = 0

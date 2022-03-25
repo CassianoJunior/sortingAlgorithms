@@ -1,5 +1,4 @@
 import time
-import random
 
 def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
   startIndex = firstIndex
