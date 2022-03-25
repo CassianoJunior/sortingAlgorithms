@@ -1,5 +1,4 @@
 import time
-import random
 
 numberOfComparations = 0
 
@@ -10,10 +9,12 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
   pivot = vector[(firstIndex + finalIndex) // 2]
 
   while startIndex <= endIndex:
-    while vector[startIndex] < pivot: 
+    numberOfComparations += 1
+    while vector[startIndex] < pivot:
       startIndex += 1
       numberOfComparations += 1
-    while vector[endIndex] > pivot: 
+    numberOfComparations += 1
+    while vector[endIndex] > pivot:
       endIndex -= 1
       numberOfComparations += 1
     numberOfComparations += 1
@@ -23,25 +24,25 @@ def quickSort(vector: list[int], firstIndex: int, finalIndex: int) -> None:
       vector[endIndex] = aux
       startIndex += 1
       endIndex -= 1
-  numberOfComparations += 1
-  if firstIndex < endIndex: quickSort(vector, firstIndex, endIndex)
-  numberOfComparations += 1
-  if finalIndex > startIndex: quickSort(vector, startIndex, finalIndex)
+    numberOfComparations += 1
 
-def run(vector: list[int]) -> tuple[list[int], float]:
+  numberOfComparations += 1
+
+  if firstIndex < endIndex:
+    quickSort(vector, firstIndex, endIndex)
+  numberOfComparations += 1
+  if finalIndex > startIndex:
+    quickSort(vector, startIndex, finalIndex)
+  numberOfComparations += 1
+
+def run(vector: list[int]) -> tuple[list[int], float, int]:
   vectorCopy = vector[:]
   initialTime = time.time()
   quickSort(vectorCopy, 0, len(vectorCopy) - 1)
   finalTime = time.time()
   runTime = finalTime - initialTime
 
-  return vectorCopy, runTime
+  return vectorCopy, runTime, numberOfComparations
 
-'''
-vector = [1, 2, 3, 4, 5, 6, 7, 8]
-quickSort(vector, 0, len(vector) - 1)
-for i in vector:
-  print(i)
-print(numberOfComparations)
-'''
+
 

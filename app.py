@@ -42,23 +42,19 @@ def defineSample(sampleSize: int, vectorAscending: list[int], vectorDescending: 
 
   return ascendingOrderedVector, descendingOrderedVector, randomVector
 
-async def writeOnFile(fileName: str, ascendingData: tuple[list[int], float], descendingData: tuple[list[int], float], randomData: tuple[list[int], float]) -> None:
+async def writeOnFile(fileName: str, ascendingData: tuple[list[int], float, float], descendingData: tuple[list[int], float, float], randomData: tuple[list[int], float, float]) -> None:
   algorithm = fileName.split(".")[0]
   with open(fileName, "w") as file:
     file.write(f"Dados da execucao do algoritmo {algorithm}\n")
     file.write(f"Tempos de ordenacao para os diferentes vetores\n")
-
-  with open(fileName, "a") as file:
-    file.write(f"Tempo vetor crescente: {ascendingData[1]} | Tempo vetor decrescente: {descendingData[1]} | Tempo vetor aleatório: {randomData[1]}\n")
-    file.write("Vetor ordenado: \n")
-
-  for numberAscending in ascendingData[0]:
-    with open(fileName, "a") as file:
-      file.write(f"{numberAscending}\n")
+    file.write(f"""
+  -> Tempo vetor crescente: {ascendingData[1]} | Número de comparações: {ascendingData[2]}\n
+  -> Tempo vetor decrescente: {descendingData[1]} | Número de comparações: {descendingData[2]}\n
+  -> Tempo vetor aleatório: {randomData[1]} | Número de comparações: {randomData[2]}\n
+    """)
 
 def checkOrdenation(vector: list[int], size: int) -> bool:
   for i in range(size):
-    print(vector[i], i)
     if vector[i] != i:
       return False
 
@@ -68,14 +64,20 @@ def executeAlgorithm(algorithm, vectorAscending: list[int], vectorDescending: li
   sumTimeAscendingSortedVector = 0
   sumTimeDescendigSortedVector = 0
   sumTimeRandomVector = 0
+  sumComparationsAscendingSortedVector = 0
+  sumComparationsDescendingSortedVector = 0
+  sumComparationsRandomVector = 0
 
   for i in range(3):
-    orderedVectorForAscending, timeAscending = algorithm(vectorAscending)
+    orderedVectorForAscending, timeAscending, comparationsAscending = algorithm(vectorAscending)
     sumTimeAscendingSortedVector += timeAscending
-    orderedVectorForDescending, timeDescending = algorithm(vectorDescending)
+    sumComparationsAscendingSortedVector += comparationsAscending
+    orderedVectorForDescending, timeDescending, comparationsDescending = algorithm(vectorDescending)
     sumTimeDescendigSortedVector += timeDescending
-    orderedVectorForRandom, timeRandom = algorithm(randomVector)
+    sumComparationsDescendingSortedVector += comparationsDescending
+    orderedVectorForRandom, timeRandom, comparationsRandom = algorithm(randomVector)
     sumTimeRandomVector += timeRandom
+    sumComparationsRandomVector += comparationsRandom
 
   print("Verificando vetores ordenados...")
   if not checkOrdenation(orderedVectorForAscending, len(vectorAscending)):
@@ -91,10 +93,13 @@ def executeAlgorithm(algorithm, vectorAscending: list[int], vectorDescending: li
   averageTimeAscendingSortedVector = sumTimeAscendingSortedVector / 3
   averageTimeDescendigSortedVector = sumTimeDescendigSortedVector / 3
   averageTimeRandomVector = sumTimeRandomVector / 3
+  averageComparationsAscendingSortedVector = sumComparationsAscendingSortedVector / 3
+  averageComparationsDescendingSortedVector = sumComparationsDescendingSortedVector / 3
+  averageComparationsRandomVector = sumComparationsRandomVector / 3
 
-  dataAscendingVector = [orderedVectorForAscending, averageTimeAscendingSortedVector]
-  dataDescendingVector = [orderedVectorForDescending, averageTimeDescendigSortedVector]
-  dataRandomVector = [orderedVectorForRandom, averageTimeRandomVector]
+  dataAscendingVector = [orderedVectorForAscending, averageTimeAscendingSortedVector, averageComparationsAscendingSortedVector]
+  dataDescendingVector = [orderedVectorForDescending, averageTimeDescendigSortedVector, averageComparationsDescendingSortedVector]
+  dataRandomVector = [orderedVectorForRandom, averageTimeRandomVector, averageComparationsRandomVector]
 
   return dataAscendingVector, dataDescendingVector, dataRandomVector
 
@@ -176,6 +181,6 @@ async def app():
       print("Digite apenas os valores mostrados.")
       continue
 
-  print("End of program")
+  print("End of program\nBy Abner Brito, Cassiano Junior e José Augusto")
 
 asyncio.run(app())
