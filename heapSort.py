@@ -21,7 +21,6 @@ def maxHeapify(vector: list[int], actualNode: int, heapSize: int) -> None:
     largestValue = rightSon
     numberOfComparations += 2
   else:
-    print(rightSon, heapSize)
     if not rightSon < heapSize:
       numberOfComparations += 1
     else:
