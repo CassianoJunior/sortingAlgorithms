@@ -3,6 +3,8 @@ import asyncio
 from typing import Callable
 from OrdenationExcept import OrdenationExcept
 
+import matplotlib.pyplot as plt
+
 import bubbleSort
 import insertionSort
 import mergeSort
@@ -19,6 +21,8 @@ def showOptions():
   4 - HeapSort
   5 - QuickSort
   6 - Definir tamanho da amostra (max 200000)
+
+  7 - Gerar resultados para amostras pré-definidas
 
   0 - Finalizar o programa
   """)
@@ -45,9 +49,9 @@ def defineSample(sampleSize: int, vectorAscending: list[int], vectorDescending: 
 
 async def writeOnFile(fileName: str, ascendingData: tuple[list[int], float, float], descendingData: tuple[list[int], float, float], randomData: tuple[list[int], float, float]) -> None:
   algorithm = fileName.split(".")[0]
-  with open(fileName, "w") as file:
+  with open(f"data/{fileName}", "w") as file:
     file.write(f"Dados da execucao do algoritmo {algorithm}\n")
-    file.write(f"Tempos de ordenacao para os diferentes vetores\n")
+    file.write(f"Tempos de ordenacao e comparacoes para os diferentes vetores\n")
     file.write(f"""
   -> Tempo vetor crescente: {ascendingData[0]} | Número de comparações: {ascendingData[1]}\n
   -> Tempo vetor decrescente: {descendingData[0]} | Número de comparações: {descendingData[1]}\n
@@ -80,7 +84,7 @@ def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, in
     sumTimeRandomVector += timeRandom
     sumComparationsRandomVector += comparationsRandom
 
-  print("Verificando vetores ordenados...")
+  print("Verificando vetores...")
   if not checkOrdenation(orderedVectorForAscending, len(vectorAscending)):
     raise OrdenationExcept("Erro na ordenação do vetor ordenado crescente!")
 
@@ -104,8 +108,45 @@ def executeAlgorithm(algorithm: Callable[[list[int]], tuple[list[int], float, in
 
   return dataAscendingVector, dataDescendingVector, dataRandomVector
 
-def check(size: int) -> bool:
+def checkSampleIsEmpty(size: int) -> bool:
   return size == 0
+
+def getTimes(times: list[list[float]]) -> tuple[list[float], list[float], list[float]]:
+  timesAscending = []
+  timesDescending = []
+  timesRandom = []
+  for time in times:
+    timesAscending.append(time[0])
+    timesDescending.append(time[1])
+    timesRandom.append(time[2])
+
+  return timesAscending, timesDescending, timesRandom
+
+def makeGraph(fileName: str, samples: list[int], times: list[list[float]]):
+  timesAscending, timesDescending, timesRandom = getTimes(times)
+  plt.figure(figsize=(6, 8))
+  plt.xlabel("Tamanho da amostra")
+  plt.ylabel("Tempo de ordenação (segundos)")
+  plt.title(f"Tempo de ordenação dos diferentes vetores para o\nalgoritmo {fileName} para as amostras")
+  plt.xticks(samples, rotation='vertical')
+  plt.plot(samples, timesAscending, label="Vetor crescente")
+  plt.plot(samples, timesDescending, label="Vetor decrescente")
+  plt.plot(samples, timesRandom, label="Vetor aleatório")
+  plt.legend()
+  plt.savefig(f"graphs/{fileName}.png")
+  plt.close()
+
+async def generateData(algorithm: Callable[[list[int]], tuple[list[int], float, int]], ascendingVector: list[int], descendingVector: list[int], fileName: str) -> None:
+  samples = [100, 1000, 5000, 30000, 50000, 100000, 150000, 200000]
+  samplesForTest = samples[:]
+  times = []
+  for sample in samplesForTest:
+    ascendingVectorTest, descendingVectorTest, randomVectorTest = defineSample(sample, ascendingVector, descendingVector)
+    dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(algorithm, ascendingVectorTest, descendingVectorTest, randomVectorTest)
+    await writeOnFile(f"{fileName}-{sample}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+    times.append([dataAscendingVector[0], dataDescendingVector[0], dataRandomVector[0]])
+
+  makeGraph(f"{fileName}", samplesForTest, times)
 
 async def app():
   print("Gerando vetores...")
@@ -127,7 +168,7 @@ async def app():
 
     if option == 0: break
 
-    if option != 6 and check(sampleSize):
+    if option != 7 and option != 6 and checkSampleIsEmpty(sampleSize):
       print("Defina uma amostra antes de executar")
       continue
 
@@ -135,35 +176,35 @@ async def app():
       dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(bubbleSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
 
       print("Escrevendo dados...")
-      await writeOnFile("bubbleSort.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      await writeOnFile(f"bubbleSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
       print("Verifique o arquivo criado ('bubbleSort.txt') com os dados")
 
     elif option == 2:
       dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(insertionSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
 
       print("Escrevendo dados...")
-      await writeOnFile("insertionSort.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      await writeOnFile(f"insertionSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
       print("Verifique o arquivo criado ('insertionSort.txt') com os dados")
 
     elif option == 3:
       dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(mergeSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
 
       print("Escrevendo dados...")
-      await writeOnFile("mergeSort.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      await writeOnFile(f"mergeSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
       print("Verifique o arquivo criado ('mergeSort.txt') com os dados")
 
     elif option == 4:
       dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(heapSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
 
       print("Escrevendo dados...")
-      await writeOnFile("heapSort.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      await writeOnFile(f"heapSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
       print("Verifique o arquivo criado ('heapSort.txt') com os dados")
 
     elif option == 5:
       dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(quickSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
 
       print("Escrevendo dados...")
-      await writeOnFile("quickSort.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      await writeOnFile(f"quickSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
       print("Verifique o arquivo criado ('quickSort.txt') com os dados")
 
     elif option == 6:
@@ -178,6 +219,29 @@ async def app():
       sampleSize = size
       print(f"Nova amostra definida: {size}")
 
+    elif option == 7:
+      print("""
+      Esta opção irá executar todos os algoritmos para os seguintes valores de amostras:
+        100,
+        1000,
+        5000,
+        30000,
+        50000,
+        100000,
+        150000,
+        200000;
+      Além disso, será gerado um arquivo com os dados de cada algoritmo para cada valor de amostra juntamente
+      com gráficos para comparação. Isso pode demorar um pouco.
+        """)
+      answer = input("Deseja continuar? (Sim/Não)\n")
+      if answer.lower() != "sim" and answer.lower() != "s": continue
+
+      await generateData(bubbleSort.run, ascendingOrderedVector, descendingOrderedVector, "bubbleSort")
+      await generateData(insertionSort.run, ascendingOrderedVector, descendingOrderedVector, "insertionSort")
+      await generateData(mergeSort.run, ascendingOrderedVector, descendingOrderedVector, "mergeSort")
+      await generateData(heapSort.run, ascendingOrderedVector, descendingOrderedVector, "heapSort")
+      await generateData(quickSort.run, ascendingOrderedVector, descendingOrderedVector, "quickSort")
+      print("Dados gerados!")
     else:
       print("Digite apenas os valores mostrados.")
       continue
