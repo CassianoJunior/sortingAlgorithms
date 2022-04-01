@@ -122,7 +122,18 @@ def getTimes(times: list[list[float]]) -> tuple[list[float], list[float], list[f
 
   return timesAscending, timesDescending, timesRandom
 
-def makeGraph(fileName: str, samples: list[int], times: list[list[float]]):
+def getComparations(comparations: list[list[int]]) -> tuple[list[int], list[int], list[int]]:
+  comparationsAscending = []
+  comparationsDescending = []
+  comparationsRandom = []
+  for comp in comparations:
+    comparationsAscending.append(comp[0])
+    comparationsDescending.append(comp[1])
+    comparationsRandom.append(comp[2])
+
+  return comparationsAscending, comparationsDescending, comparationsRandom
+
+def makeTimeGraph(fileName: str, samples: list[int], times: list[list[float]]):
   timesAscending, timesDescending, timesRandom = getTimes(times)
   plt.figure(figsize=(6, 8))
   plt.xlabel("Tamanho da amostra")
@@ -136,17 +147,34 @@ def makeGraph(fileName: str, samples: list[int], times: list[list[float]]):
   plt.savefig(f"graphs/{fileName}.png")
   plt.close()
 
+def makeComparationGraph(fileName: str, samples: list[int], comparations: list[list[float]]):
+  comparationsAscending, comparationsDescending, comparationsRandom = getComparations(comparations)
+  plt.figure(figsize=(6, 8))
+  plt.xlabel("Tamanho da amostra")
+  plt.ylabel("Número de comparações")
+  plt.title(f"Número de comparações dos diferentes vetores para o\nalgoritmo {fileName} para as amostras")
+  plt.xticks(samples, rotation='vertical')
+  plt.plot(samples, comparationsAscending, label="Vetor crescente")
+  plt.plot(samples, comparationsDescending, label="Vetor decrescente")
+  plt.plot(samples, comparationsRandom, label="Vetor aleatório")
+  plt.legend()
+  plt.savefig(f"graphs/{fileName}_comparations.png")
+  plt.close()
+
 async def generateData(algorithm: Callable[[list[int]], tuple[list[int], float, int]], ascendingVector: list[int], descendingVector: list[int], fileName: str) -> None:
   samples = [100, 1000, 5000, 30000, 50000, 100000, 150000, 200000]
   samplesForTest = samples[:]
   times = []
+  comparations = []
   for sample in samplesForTest:
     ascendingVectorTest, descendingVectorTest, randomVectorTest = defineSample(sample, ascendingVector, descendingVector)
     dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(algorithm, ascendingVectorTest, descendingVectorTest, randomVectorTest)
     await writeOnFile(f"{fileName}-{sample}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
     times.append([dataAscendingVector[0], dataDescendingVector[0], dataRandomVector[0]])
+    comparations.append([dataAscendingVector[1], dataDescendingVector[1], dataRandomVector[1]])
 
-  makeGraph(f"{fileName}", samplesForTest, times)
+  makeTimeGraph(f"{fileName}", samplesForTest, times)
+  makeComparationGraph(f"{fileName}", samplesForTest, comparations)
 
 async def app():
   print("Gerando vetores...")
