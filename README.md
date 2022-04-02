@@ -1,9 +1,8 @@
 # Análise dos diferentes algoritmos de ordenação
 
-> Este trabalho foi desenvolvido na linguagem Python com o objetivo de comparar alguns algoritmos mais conhecidos e analizá-los.
-> Sendo eles: Bubble Sort, Insertion Sort, Heap Sort, Merge Sort e Quick Sort. 
-> Para cada algoritmo é analizado diferentes tamanhos (100 à 200000) e tipos (vetor ordenado crescente, vetor ordenado decrescente e vetor aleatório) de entradas, 
-> marcando o tempo médio e o número de comparações realizadas.
+> Este trabalho foi desenvolvido na linguagem Python com o objetivo de comparar alguns algoritmos mais conhecidos e analisá-los,
+> sendo eles: Bubble Sort, Insertion Sort, Heap Sort, Merge Sort e Quick Sort. 
+> Para cada algoritmo é possível analisar diferentes tamanhos (1 à 200000) e tipos (vetor ordenado crescente, vetor ordenado decrescente e vetor aleatório) de entradas, marcando o tempo médio e o número de comparações realizadas.
 > Atividade prática feita para a disciplina de Projeto e Análise de Algoritmos do curso de Ciência da Computação da UFPI.
 
 ## Requisitos
