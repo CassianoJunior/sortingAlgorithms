@@ -10,7 +10,7 @@ import insertionSort
 import mergeSort
 import heapSort
 import quickSort
-import HybridSort
+import hybridSort
 
 def showOptions():
   print("""
