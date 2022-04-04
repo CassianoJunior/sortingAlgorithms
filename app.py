@@ -10,6 +10,7 @@ import insertionSort
 import mergeSort
 import heapSort
 import quickSort
+import hybridSort
 
 def showOptions():
   print("""
@@ -20,9 +21,10 @@ def showOptions():
   3 - MergeSort
   4 - HeapSort
   5 - QuickSort
-  6 - Definir tamanho da amostra (max 200000)
+  6 - HybridSort
+  7 - Definir tamanho da amostra (max 200000)
 
-  7 - Gerar resultados para amostras pré-definidas
+  8 - Gerar resultados para amostras pré-definidas
 
   0 - Finalizar o programa
   """)
@@ -196,7 +198,7 @@ async def app():
 
     if option == 0: break
 
-    if option != 7 and option != 6 and checkSampleIsEmpty(sampleSize):
+    if option != 8 and option != 7 and checkSampleIsEmpty(sampleSize):
       print("Defina uma amostra antes de executar")
       continue
 
@@ -236,6 +238,13 @@ async def app():
       print("Verifique o arquivo criado ('quickSort.txt') com os dados")
 
     elif option == 6:
+      dataAscendingVector, dataDescendingVector, dataRandomVector = executeAlgorithm(hybridSort.run, ascendingOrderedVectorTest, descendingOrderedVectorTest, randomVectorTest)
+
+      print("Escrevendo dados...")
+      await writeOnFile(f"hybridSort-{sampleSize}.txt", dataAscendingVector, dataDescendingVector, dataRandomVector)
+      print("Verifique o arquivo criado ('quickSort.txt') com os dados")
+
+    elif option == 7:
       while(True):
         size = int(input("Defina o tamanho da amostra para o teste: "))
         if size <= 200000: break
@@ -247,7 +256,7 @@ async def app():
       sampleSize = size
       print(f"Nova amostra definida: {size}")
 
-    elif option == 7:
+    elif option == 8:
       print("""
       Esta opção irá executar todos os algoritmos para os seguintes valores de amostras:
         100,
@@ -269,7 +278,9 @@ async def app():
       await generateData(mergeSort.run, ascendingOrderedVector, descendingOrderedVector, "mergeSort")
       await generateData(heapSort.run, ascendingOrderedVector, descendingOrderedVector, "heapSort")
       await generateData(quickSort.run, ascendingOrderedVector, descendingOrderedVector, "quickSort")
+      await generateData(hybridSort.run, ascendingOrderedVector, descendingOrderedVector, "hybridSort")
       print("Dados gerados!")
+
     else:
       print("Digite apenas os valores mostrados.")
       continue
